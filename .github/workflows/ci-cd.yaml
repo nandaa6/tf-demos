@@ -35,11 +35,15 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build & Push Patient Service Image
+        env:
+          ECR_PATIENT_REPO: ${{ env.ECR_PATIENT_REPO }}
         run: |
           docker build -t $ECR_PATIENT_REPO:latest ./services/patient-service
           docker push $ECR_PATIENT_REPO:latest
 
       - name: Build & Push Appointment Service Image
+        env:
+          ECR_APPOINTMENT_REPO: ${{ env.ECR_APPOINTMENT_REPO }}
         run: |
           docker build -t $ECR_APPOINTMENT_REPO:latest ./services/appointment-service
           docker push $ECR_APPOINTMENT_REPO:latest
