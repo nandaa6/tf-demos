@@ -10,17 +10,17 @@ resource "aws_instance" "instance1" {
   }
 }
 
-resource "aws_s3_bucket" "s3_bucket" {
-  bucket = "terraform-statefile-learnnine" # change this
-}
+# resource "aws_s3_bucket" "s3_bucket" {
+#   bucket = "terraform-statefile-learnnine" # change this
+# }
 
-resource "aws_dynamodb_table" "terraform_lock" {
-  name           = "terraform-lock-learnnine"
-  billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "LockID"
+# resource "aws_dynamodb_table" "terraform_lock" {
+#   name           = "terraform-lock-learnnine"
+#   billing_mode   = "PAY_PER_REQUEST"
+#   hash_key       = "LockID"
 
-  attribute {
-    name = "LockID"
-    type = "S"
-  }
-}
+#   attribute {
+#     name = "LockID"
+#     type = "S"
+#   }
+# }
