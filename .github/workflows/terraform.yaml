@@ -61,7 +61,7 @@ jobs:
       working-directory: ./ec2
       run: terraform plan -out=tfplan
 
-    - name: 'Terraform Apply'
-      working-directory: ./ec2
-      if: github.ref == 'refs/heads/main'
-      run: terraform apply -auto-approve tfplan
+    # - name: 'Terraform Apply'
+    #   working-directory: ./ec2
+    #   if: github.ref == 'refs/heads/main'
+    #   run: terraform apply -auto-approve tfplan
