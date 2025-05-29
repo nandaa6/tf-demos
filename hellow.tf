@@ -1,2 +1,0 @@
-hello
-sample3
