@@ -7,6 +7,18 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to run task against"
+        required: true
+        type: choice
+        options:
+          - sbx
+          - dev
+          - stage
+          - test
+          - prod
 
 jobs:
   terraform:
