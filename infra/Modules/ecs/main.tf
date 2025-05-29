@@ -5,10 +5,8 @@ resource "aws_ecs_cluster" "main" {
 resource "aws_lb" "main" {
   name               = "${var.cluster_name}-alb"
   internal           = false
-
   load_balancer_type = "application"
   subnets            = var.alb_subnets
-
   security_groups = [
     aws_security_group.alb_sg.id
   ]
@@ -18,7 +16,6 @@ resource "aws_security_group" "alb_sg" {
   name        = "${var.cluster_name}-alb-sg"
   description = "Allow HTTP"
   vpc_id      = var.vpc_id
-
   ingress {
     from_port   = 80
     to_port     = 80
