@@ -3,10 +3,10 @@ provider "aws" {
 }
 
 resource "aws_instance" "instance1" {
+  key_name      = "instance1"
   ami           = "ami-08b5b3a93ed654d19"
   instance_type = "t2.micro"
-  name = "single-Malt"
   tags = {
-    name = "sample2-terraform-instance"
+    Name = "sample2-terraform-instance"
   }
 }
