@@ -50,7 +50,7 @@ jobs:
       run: terraform init
 
     - name: 'Terraform Format'
-      working-directory: ./infra/modules/*
+      working-directory: ./infra/modules/network
       run: terraform fmt
 
     - name: 'Terraform Validate'
