@@ -47,12 +47,15 @@ jobs:
     #     tfsec --version
 
     - name: 'Terraform Init'
+      working-directory: ./ec2
       run: terraform init
 
     - name: 'Terraform Format'
+      working-directory: ./ec2
       run: terraform fmt
 
     - name: 'Terraform Validate'
+      working-directory: ./ec2  
       run: terraform validate
 
     # - name: 'TFLint'
