@@ -11,6 +11,7 @@ resource "aws_instance" "instance1" {
 }
 
 resource "aws_s3_bucket" "s3_bucket" {
+  region = "eu-central-1"
   bucket = "terraform-statefile" # change this
 }
 
