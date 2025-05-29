@@ -46,22 +46,22 @@ jobs:
         terraform_version: ${{ env.TF_VERSION }}
 
     - name: 'Terraform Init'
-      working-directory: ./ec2
+      working-directory: ./infra
       run: terraform init
 
     - name: 'Terraform Format'
-      working-directory: ./ec2
+      working-directory: ./infra
       run: terraform fmt
 
     - name: 'Terraform Validate'
-      working-directory: ./ec2  
+      working-directory: ./infra 
       run: terraform validate
 
     - name: 'Terraform Plan'
-      working-directory: ./ec2
+      working-directory: ./infra
       run: terraform plan -out=tfplan
 
-    - name: 'Terraform Apply'
-      working-directory: ./ec2
-      if: github.ref == 'refs/heads/main'
-      run: terraform apply -auto-approve tfplan
+    # - name: 'Terraform Apply'
+    #   working-directory: ./infra
+    #   if: github.ref == 'refs/heads/main'
+    #   run: terraform apply -auto-approve tfplan
