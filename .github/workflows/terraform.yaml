@@ -46,7 +46,7 @@ jobs:
         terraform_version: ${{ env.TF_VERSION }}
 
     - name: 'Terraform Init'
-      working-directory: ./infra/modules/
+      working-directory: ./infra/modules/network
       run: terraform init
 
     - name: 'Terraform Format'
