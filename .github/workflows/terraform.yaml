@@ -24,6 +24,10 @@ jobs:
   terraform:
     name: 'Terraform Plan and Deploy'
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./infra/modules
+
 
     env:
       AWS_REGION: 'us-east-1'
@@ -46,7 +50,6 @@ jobs:
         terraform_version: ${{ env.TF_VERSION }}
 
     - name: 'Terraform Init'
-      working-directory: ./infra/modules/network
       run: terraform init
 
     - name: 'Terraform Format'
