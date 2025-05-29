@@ -1,58 +1,58 @@
-# name: CI/CD - Microservices
+name: CI/CD - Microservices
 
-# on:
+on:
 
-#   push:
-#     branches: [main]
-#     paths:
-#       - 'services/**'
-#       - '.github/workflows/ci-cd.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'services/**'
+      - '.github/workflows/ci-cd.yml'
 
-# env:
-#   AWS_REGION: us-east-1
-#   ECR_PATIENT_REPO: your_ecr_repo_name/patient-service
-#   ECR_APPOINTMENT_REPO: your_ecr_repo_name/appointment-service
+env:
+  AWS_REGION: us-east-1
+  ECR_PATIENT_REPO: patient/patient-service
+  ECR_APPOINTMENT_REPO: appointment/appointment-service
 
-# jobs:
-#   deploy-services:
-#     runs-on: ubuntu-latest
-#     permissions:
-#       id-token: write
-#       contents: read
+jobs:
+  deploy-services:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
 
-#     steps:
-#       - name: Checkout Code
-#         uses: actions/checkout@v4
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-#       - name: Configure AWS Credentials
-#         uses: aws-actions/configure-aws-credentials@v2
-#         with:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
 
-#           role-to-assume: arn:aws:iam::YOUR_ACCOUNT_ID:role/YOUR_GITHUB_OIDC_ROLE
-#           aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: arn:aws:iam::575108929843:role/github-action-role
+          aws-region: ${{ env.AWS_REGION }}
 
-#       - name: Login to Amazon ECR
-#         uses: aws-actions/amazon-ecr-login@v2
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
 
-#       - name: Build & Push Patient Service Image
-#         run: |
-#           docker build -t $ECR_PATIENT_REPO:latest ./services/patient-service
-#           docker push $ECR_PATIENT_REPO:latest
+      - name: Build & Push Patient Service Image
+        run: |
+          docker build -t $ECR_PATIENT_REPO:latest ./services/patient-service
+          docker push $ECR_PATIENT_REPO:latest
 
-#       - name: Build & Push Appointment Service Image
-#         run: |
-#           docker build -t $ECR_APPOINTMENT_REPO:latest ./services/appointment-service
-#           docker push $ECR_APPOINTMENT_REPO:latest
+      - name: Build & Push Appointment Service Image
+        run: |
+          docker build -t $ECR_APPOINTMENT_REPO:latest ./services/appointment-service
+          docker push $ECR_APPOINTMENT_REPO:latest
 
-#       - name: Update ECS Services (Optional)
-#         run: |
-#           aws ecs update-service \
-#             --cluster healthcare-app-cluster \
-#             --service patient-service \
-#             --force-new-deployment
+      - name: Update ECS Services
+        run: |
+          aws ecs update-service \
+            --cluster healthcare-app-cluster \
+            --service patient-service \
+            --force-new-deployment
           
 
-#           aws ecs update-service \
-#             --cluster healthcare-app-cluster \
-#             --service appointment-service \
-#             --force-new-deployment
+          aws ecs update-service \
+            --cluster healthcare-app-cluster \
+            --service appointment-service \
+            --force-new-deployment
