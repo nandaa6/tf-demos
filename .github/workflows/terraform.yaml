@@ -7,18 +7,18 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: "Environment to run task against"
-        required: true
-        type: choice
-        options:
-          - sbx
-          - dev
-          - stage
-          - test
-          - prod
+  # workflow_dispatch:
+  #   inputs:
+  #     environment:
+  #       description: "Environment to run task against"
+  #       required: true
+  #       type: choice
+  #       options:
+  #         - sbx
+  #         - dev
+  #         - stage
+  #         - test
+  #         - prod
 
 jobs:
   terraform:
@@ -45,19 +45,6 @@ jobs:
       with:
         terraform_version: ${{ env.TF_VERSION }}
 
-    # - name: 'Install TFLint'
-    #   run: |
-    #     curl -sLo tflint.zip https://github.com/terraform-linters/tflint/releases/download/v${{ env.TFLINT_VERSION }}/tflint_linux_amd64.zip
-    #     unzip tflint.zip -d /usr/local/bin/
-    #     tflint --version
-
-    # - name: 'Install tfsec'
-    #   run: |
-    #     curl -sLo tfsec https://github.com/aquasecurity/tfsec/releases/download/v${{ env.TFSEC_VERSION }}/tfsec-linux-amd64
-    #     chmod +x tfsec
-    #     mv tfsec /usr/local/bin/
-    #     tfsec --version
-
     - name: 'Terraform Init'
       working-directory: ./ec2
       run: terraform init
@@ -70,19 +57,11 @@ jobs:
       working-directory: ./ec2  
       run: terraform validate
 
-    # - name: 'TFLint'
-    #   run: |
-    #     tflint --init
-    #     tflint
-
-    # - name: 'tfsec'
-    #   run: tfsec .
-
     - name: 'Terraform Plan'
       working-directory: ./ec2
       run: terraform plan -out=tfplan
 
-    - name: 'Terraform Apply'
-      working-directory: ./ec2
-      if: github.ref == 'refs/heads/main'
-      run: terraform apply -auto-approve tfplan
+    # - name: 'Terraform Apply'
+    #   working-directory: ./ec2
+    #   if: github.ref == 'refs/heads/main'
+    #   run: terraform apply -auto-approve tfplan
