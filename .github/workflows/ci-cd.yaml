@@ -10,8 +10,8 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  ECR_PATIENT_REPO: patient/patient-service
-  ECR_APPOINTMENT_REPO: appointment/appointment-service
+  ECR_PATIENT_REPO: patient-service
+  ECR_APPOINTMENT_REPO: appointment-service
 
 jobs:
   deploy-services:
