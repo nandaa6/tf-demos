@@ -1,4 +1,3 @@
-variable "cluster_name" {}
 variable "alb_subnets" {
   type = list(string)
 }
@@ -14,4 +13,8 @@ variable "container_definitions" {
     path           = string
     image          = string
   }))
+}
+variable "cluster_name" {
+  type = string
+  default = "healthcare-app"
 }
