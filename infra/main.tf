@@ -27,7 +27,7 @@ module "network" {
 }
 
 module "ecs" {
-  source              = "./modules/ecs"
+  source              = "./Modules/ecs"
   cluster_name        = "${var.project_name}-cluster"
   alb_subnets         = module.network.public_subnets
   service_subnets     = module.network.private_subnets
