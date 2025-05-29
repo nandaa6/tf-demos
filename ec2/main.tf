@@ -11,12 +11,11 @@ resource "aws_instance" "instance1" {
 }
 
 resource "aws_s3_bucket" "s3_bucket" {
-  region = "eu-central-1"
-  bucket = "terraform-statefile" # change this
+  bucket = "terraform-statefile-learnnine" # change this
 }
 
 resource "aws_dynamodb_table" "terraform_lock" {
-  name           = "terraform-lock"
+  name           = "terraform-lock-learnnine"
   billing_mode   = "PAY_PER_REQUEST"
   hash_key       = "LockID"
 

@@ -1,6 +1,6 @@
 /*terraform {
   backend "s3" {
-    bucket         = "terraform-state-file" # change this
+    bucket         = "terraform-statefile-learnnine" # change this
     key            = "statefile/terraform.tfstate"
     region         = "us-east-1"
     encrypt        = true
