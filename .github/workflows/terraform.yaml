@@ -64,6 +64,7 @@ jobs:
     #   run: tfsec .
 
     - name: 'Terraform Plan'
+      working-directory: ./ec2
       run: terraform plan -out=tfplan
 
     # - name: 'Terraform Apply'
