@@ -46,19 +46,19 @@ jobs:
         terraform_version: ${{ env.TF_VERSION }}
 
     - name: 'Terraform Init'
-      working-directory: ./infra
+      working-directory: ./infra/modules/*
       run: terraform init
 
     - name: 'Terraform Format'
-      working-directory: ./infra
+      working-directory: ./infra/modules/*
       run: terraform fmt
 
     - name: 'Terraform Validate'
-      working-directory: ./infra 
+      working-directory: ./infra/modules
       run: terraform validate
 
     - name: 'Terraform Plan'
-      working-directory: ./infra
+      working-directory: ./infra/modules
       run: terraform plan -out=tfplan
 
     # - name: 'Terraform Apply'
