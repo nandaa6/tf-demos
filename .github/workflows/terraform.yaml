@@ -1,66 +1,70 @@
-# name: Terraform CI/CD
+name: Terraform CI/CD
 
-# on:
-#   push:
-#     branches:
-#       - main
-#   pull_request:
-#     branches:
-#       - main
-#   # workflow_dispatch:
-#   #   inputs:
-#   #     environment:
-#   #       description: "Environment to run task against"
-#   #       required: true
-#   #       type: choice
-#   #       options:
-#   #         - sbx
-#   #         - dev
-#   #         - stage
-#   #         - test
-#   #         - prod
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  # workflow_dispatch:
+  #   inputs:
+  #     environment:
+  #       description: "Environment to run task against"
+  #       required: true
+  #       type: choice
+  #       options:
+  #         - sbx
+  #         - dev
+  #         - stage
+  #         - test
+  #         - prod
 
-# jobs:
-#   terraform:
-#     name: 'Terraform Plan and Deploy'
-#     runs-on: ubuntu-latest
-#     defaults:
-#       run:
-#         working-directory: infra
+jobs:
+  terraform:
+    name: 'Terraform Plan and Deploy'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra
 
 
-#     env:
-#       AWS_REGION: 'us-east-1'
-#       TF_VERSION: '1.11.1'
+    env:
+      AWS_REGION: 'us-east-1'
+      TF_VERSION: '1.11.1'
 
-#     steps:
-#     - name: 'Checkout GitHub repository'
-#       uses: actions/checkout@v2
+    steps:
+    - name: 'Checkout GitHub repository'
+      uses: actions/checkout@v2
 
-#     - name: 'Configure AWS credentials'
-#       uses: aws-actions/configure-aws-credentials@v1
-#       with:
-#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#         aws-region: ${{ env.AWS_REGION }}
+    - name: 'Configure AWS credentials'
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
 
-#     - name: 'Set up Terraform'
-#       uses: hashicorp/setup-terraform@v1
-#       with:
-#         terraform_version: ${{ env.TF_VERSION }}
+    - name: 'Set up Terraform'
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: ${{ env.TF_VERSION }}
 
-#     - name: 'Terraform Init'
-#       run: terraform init
+    - name: 'Terraform Init'
+      run: terraform init
 
-#     - name: 'Terraform Format'
-#       run: terraform fmt
+    - name: 'Terraform Format'
+      run: terraform fmt
 
-#     - name: 'Terraform Validate'
-#       run: terraform validate
+    - name: 'Terraform Validate'
+      run: terraform validate
 
-#     - name: 'Terraform Plan'
-#       run: terraform plan -out=tfplan
+    - name: 'Terraform Plan'
+      run: terraform plan -out=tfplan
 
-#     - name: 'Terraform Apply'
-#       if: github.ref == 'refs/heads/main'
-#       run: terraform apply -auto-approve tfplan
+    # - name: 'Terraform Apply'
+    #   if: github.ref == 'refs/heads/main'
+    #   run: terraform apply -auto-approve tfplan
+
+    - name: 'Terraform Destroy'
+      if: github.ref == 'refs/heads/main'
+      run: terraform Destroy -auto-approve tfplan

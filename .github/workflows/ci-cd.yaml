@@ -1,72 +1,72 @@
-name: CI/CD - Microservicess
+# name: CI/CD - Microservicess
 
-on:
+# on:
 
-  push:
-    branches: [main]
-    paths:
-      - 'services/**'
-      - '.github/workflows/ci-cd.yml'
+#   push:
+#     branches: [main]
+#     paths:
+#       - 'services/**'
+#       - '.github/workflows/ci-cd.yml'
 
-env:
-  AWS_REGION: us-east-1
-  ECR_PATIENT_REPO: patient-service
-  ECR_APPOINTMENT_REPO: appointment-service
+# env:
+#   AWS_REGION: us-east-1
+#   ECR_PATIENT_REPO: patient-service
+#   ECR_APPOINTMENT_REPO: appointment-service
 
-jobs:
-  deploy-services:
-    defaults:
-     run:
-       working-directory: "./services/patient-service"
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
+# jobs:
+#   deploy-services:
+#     defaults:
+#      run:
+#        working-directory: "./services/patient-service"
+#     runs-on: ubuntu-latest
+#     permissions:
+#       id-token: write
+#       contents: read
 
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@v4
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
+#       - name: Configure AWS Credentials
+#         uses: aws-actions/configure-aws-credentials@v2
+#         with:
 
-          role-to-assume: arn:aws:iam::575108929843:role/github-action-role
-          aws-region: ${{ env.AWS_REGION }}
+#           role-to-assume: arn:aws:iam::575108929843:role/github-action-role
+#           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login to Amazon ECR
-        uses: aws-actions/amazon-ecr-login@v2
+#       - name: Login to Amazon ECR
+#         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Create ECR repo if missing
-        uses: byu-oit/github-action-create-ecr-repo-if-missing@v2
-        with:
-          DOCKER_REPO_NAME: ${{ env.ECR_PATIENT_REPO }}
+#       - name: Create ECR repo if missing
+#         uses: byu-oit/github-action-create-ecr-repo-if-missing@v2
+#         with:
+#           DOCKER_REPO_NAME: ${{ env.ECR_PATIENT_REPO }}
 
-      - name: Build & Push Patient Service Image
-        env:
-          ECR_PATIENT_REPO: ${{ env.ECR_PATIENT_REPO }}
-        run: |
-          # docker build -t $ECR_PATIENT_REPO:latest ./services/patient-service
-          docker build -t patient-service .
-          docker tag patient-service:latest 575108929843.dkr.ecr.us-east-1.amazonaws.com/patient-service:latest
-          docker push 575108929843.dkr.ecr.us-east-1.amazonaws.com/patient-service:latest
+#       - name: Build & Push Patient Service Image
+#         env:
+#           ECR_PATIENT_REPO: ${{ env.ECR_PATIENT_REPO }}
+#         run: |
+#           # docker build -t $ECR_PATIENT_REPO:latest ./services/patient-service
+#           docker build -t patient-service .
+#           docker tag patient-service:latest 575108929843.dkr.ecr.us-east-1.amazonaws.com/patient-service:latest
+#           docker push 575108929843.dkr.ecr.us-east-1.amazonaws.com/patient-service:latest
 
-      # - name: Build & Push Appointment Service Image
-      #   env:
-      #     ECR_APPOINTMENT_REPO: ${{ env.ECR_APPOINTMENT_REPO }}
-      #   run: |
-      #     docker build -t $ECR_APPOINTMENT_REPO:latest ./services/appointment-service
-      #     docker push $ECR_APPOINTMENT_REPO:latest
+#       # - name: Build & Push Appointment Service Image
+#       #   env:
+#       #     ECR_APPOINTMENT_REPO: ${{ env.ECR_APPOINTMENT_REPO }}
+#       #   run: |
+#       #     docker build -t $ECR_APPOINTMENT_REPO:latest ./services/appointment-service
+#       #     docker push $ECR_APPOINTMENT_REPO:latest
 
-      - name: Update ECS Services
-        run: |
-          aws ecs update-service \
-            --cluster healthcare-app-cluster \
-            --service patient-service \
-            --force-new-deployment
+#       - name: Update ECS Services
+#         run: |
+#           aws ecs update-service \
+#             --cluster healthcare-app-cluster \
+#             --service patient-service \
+#             --force-new-deployment
           
 
-          # aws ecs update-service \
-          #   --cluster healthcare-app-cluster \
-          #   --service appointment-service \
-          #   --force-new-deployment
+#           # aws ecs update-service \
+#           #   --cluster healthcare-app-cluster \
+#           #   --service appointment-service \
+#           #   --force-new-deployment
