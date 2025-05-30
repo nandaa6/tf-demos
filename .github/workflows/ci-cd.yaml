@@ -51,12 +51,12 @@ jobs:
           docker tag patient-service:latest 575108929843.dkr.ecr.us-east-1.amazonaws.com/patient-service:latest
           docker push 575108929843.dkr.ecr.us-east-1.amazonaws.com/patient-service:latest
 
-      - name: Build & Push Appointment Service Image
-        env:
-          ECR_APPOINTMENT_REPO: ${{ env.ECR_APPOINTMENT_REPO }}
-        run: |
-          docker build -t $ECR_APPOINTMENT_REPO:latest ./services/appointment-service
-          docker push $ECR_APPOINTMENT_REPO:latest
+      # - name: Build & Push Appointment Service Image
+      #   env:
+      #     ECR_APPOINTMENT_REPO: ${{ env.ECR_APPOINTMENT_REPO }}
+      #   run: |
+      #     docker build -t $ECR_APPOINTMENT_REPO:latest ./services/appointment-service
+      #     docker push $ECR_APPOINTMENT_REPO:latest
 
       - name: Update ECS Services
         run: |
@@ -66,7 +66,7 @@ jobs:
             --force-new-deployment
           
 
-          aws ecs update-service \
-            --cluster healthcare-app-cluster \
-            --service appointment-service \
-            --force-new-deployment
+          # aws ecs update-service \
+          #   --cluster healthcare-app-cluster \
+          #   --service appointment-service \
+          #   --force-new-deployment
