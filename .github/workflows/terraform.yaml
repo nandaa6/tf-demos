@@ -67,4 +67,4 @@ jobs:
 
     - name: 'Terraform Destroy'
       if: github.ref == 'refs/heads/main'
-      run: terraform Destroy -auto-approve tfplan
+      run: terraform destroy -auto-approve tfplan
