@@ -34,6 +34,11 @@ jobs:
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
 
+      - name: Create ECR repo if missing
+        uses: byu-oit/github-action-create-ecr-repo-if-missing@v2
+        with:
+          DOCKER_REPO_NAME: ${{ env.ECR_PATIENT_REPO }}
+
       - name: Build & Push Patient Service Image
         env:
           ECR_PATIENT_REPO: ${{ env.ECR_PATIENT_REPO }}
