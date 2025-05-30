@@ -15,6 +15,9 @@ env:
 
 jobs:
   deploy-services:
+    defaults:
+     run:
+       working-directory: "./services/patient-service"
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -43,7 +46,9 @@ jobs:
         env:
           ECR_PATIENT_REPO: ${{ env.ECR_PATIENT_REPO }}
         run: |
-          docker build -t $ECR_PATIENT_REPO:latest ./services/patient-service
+          # docker build -t $ECR_PATIENT_REPO:latest ./services/patient-service
+          docker build -t patient-service .
+          docker tag patient-service:latest 575108929843.dkr.ecr.us-east-1.amazonaws.com/patient-service:latest
           docker push 575108929843.dkr.ecr.us-east-1.amazonaws.com/patient-service:latest
 
       - name: Build & Push Appointment Service Image
