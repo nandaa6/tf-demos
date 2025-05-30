@@ -44,7 +44,7 @@ jobs:
           ECR_PATIENT_REPO: ${{ env.ECR_PATIENT_REPO }}
         run: |
           docker build -t $ECR_PATIENT_REPO:latest ./services/patient-service
-          docker push $ECR_PATIENT_REPO:latest
+          docker push 575108929843.dkr.ecr.us-east-1.amazonaws.com/patient-service:latest
 
       - name: Build & Push Appointment Service Image
         env:
